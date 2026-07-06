@@ -13,7 +13,7 @@ Q17: If reading the byte 0x21 as an ASCII character, what character would it mea
 Answer: In the ASCII table 0x21 is !.
 
 Q18: If reading the byte 0x21 as a greyscale colour, as described in "Approaches for Representing Colors and Images", what colour would it mean?
-Answer: 0x21 = 2 \*16 + 1 = 33 decimal => darkgray => 0 black - 255 white;
+Answer: 0x21 = 2*16 + 1 = 33 decimal => darkgray => 0 black - 255 white;
 
 Q19: If reading the bytes 0xAA00FF as a sequence of three one-byte decimal numbers, what decimal numbers would they be?
 Answer: splitting the memory into 3 separate 8-bit values ==> AA 00 FF ==>
