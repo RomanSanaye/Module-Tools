@@ -22,6 +22,7 @@ Q5: What is 10101 + 01010?
 Answer: 11111
 
 Q6: What is 10001 + 10001?
+Answer: in binary if we add them it ll be 100010;
 Answer: 10001 = 17 + 17 = 34 decimal = 100010 binary
 
 Q7: What's the largest number you can store with 4 bits, if you want to be able to represent the number 0?
@@ -49,6 +50,6 @@ Q14: Convert the hex number B to decimal.
 Answer: 11
 
 Q15: If reading the byte 0x21 as a number, what decimal number would it mean?
-Answer:
+Answer: it ll be 33 in decimal.
 
 Q16: Continues in Part-2
