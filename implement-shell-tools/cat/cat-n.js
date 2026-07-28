@@ -1,5 +1,9 @@
 const fs = require("fs");
-const filePath = "./sample-files/1.txt";
+const args = process.argv.slice(2);
+
+const flag = args[0];
+const filePath = args[1];
+
 const content = fs.readFileSync(filePath, "utf-8");
 
 const lineNumber = content.split("\n").map((line, index) => {
