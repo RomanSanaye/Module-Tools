@@ -1,18 +1,22 @@
 # in built module
-import sys
+import argparse
 
-args = sys.argv[1:]
+parser = argparse.ArgumentParser()
+
+parser.add_argument("-n", action="store_true")
+parser.add_argument("-b", action="store_true")
+parser.add_argument("file_paths", nargs="+")
+
+args = parser.parse_args()
 
 flag = ""
-file_paths = []
 
+if args.n:
+    flag = "-n"
+elif args.b:
+    flag = "-b"
 
-# Check if the first argument is a flag like -n or -b
-if args and args[0].startswith("-"):
-    flag = args[0]
-    file_paths = args[1:]
-else:
-    file_paths = args
+file_paths = args.file_paths
 
 
 # Read all files and combine their contents into one string
@@ -54,4 +58,4 @@ if flag == "-b":
 
     lines = new_lines
 
-sys.stdout.write("\n".join(lines))
+print("\n".join(lines))
