@@ -1,37 +1,39 @@
-import sys
+import argparse
 
-args = sys.argv[1:]
+# Set up command-line argument parser
+parser = argparse.ArgumentParser()
+
+# Add supported flags
+parser.add_argument("-l", action="store_true")
+parser.add_argument("-w", action="store_true")
+parser.add_argument("-c", action="store_true")
+
+# Accept one or more file paths
+parser.add_argument("paths", nargs="+")
+
+# Parse the user's command-line arguments
+args = parser.parse_args()
 
 flags = []
-paths = []
 
-# Separate flags and paths
-for arg in args:
-    if arg.startswith("-"):
-        flags.append(arg)
-    else:
-        paths.append(arg)
+# Store selected flags for the existing logic
+if args.l:
+    flags.append("-l")
+
+if args.w:
+    flags.append("-w")
+
+if args.c:
+    flags.append("-c")
+
+paths = args.paths
 
 
-total_lines = 0
-total_words = 0
-total_chars = 0
-
-
-for file in paths:
-
-    # Read file as bytes
-    with open(file, "rb") as f:
-        content = f.read()
-
-    # Count
-    lines = content.count(b"\n")
-    words = len(content.split())
-    chars = len(content)
-
-    # Output for this file
+# Build the output based on the selected flags
+def get_output(lines, words, chars, flags):
     output = []
 
+    # Show all counts when no flag is provided
     if len(flags) == 0:
         output = [lines, words, chars]
 
@@ -45,30 +47,41 @@ for file in paths:
         if "-c" in flags:
             output.append(chars)
 
-    print(*output, file)
+    return output
 
-    # Add to totals
+
+total_lines = 0
+total_words = 0
+total_chars = 0
+
+
+# Process each file
+for file in paths:
+
+    # Read file as bytes
+    with open(file, "rb") as f:
+        content = f.read()
+
+    # Count lines, words, and characters
+    lines = content.count(b"\n")
+    words = len(content.split())
+    chars = len(content)
+
+    # Create and print output for this file
+    output = get_output(lines, words, chars, flags)
+
+    # Print counts with aligned columns
+    print(" ".join(f"{value:3}" for value in output), file)
+
+    # Add this file's counts to the totals
     total_lines += lines
     total_words += words
     total_chars += chars
 
 
-# Print total only when multiple files
+# Print total only when multiple files are provided
 if len(paths) > 1:
+    total_output = get_output(total_lines, total_words, total_chars, flags)
 
-    total_output = []
-
-    if len(flags) == 0:
-        total_output = [total_lines, total_words, total_chars]
-
-    else:
-        if "-l" in flags:
-            total_output.append(total_lines)
-
-        if "-w" in flags:
-            total_output.append(total_words)
-
-        if "-c" in flags:
-            total_output.append(total_chars)
-
-    print(*total_output, "total")
+    # Print aligned total
+    print(" ".join(f"{value:3}" for value in total_output), "total")
