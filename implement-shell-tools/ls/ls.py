@@ -1,22 +1,26 @@
-# Access command-line arguments from the terminal
-import sys
-
-# Work with the operating system (files and directories)
+import argparse
 import os
 
-# Get command-line arguments
-args = sys.argv[1:]
+# Set up command-line argument parser
+parser = argparse.ArgumentParser()
+
+# Add supported flags and file/directory paths
+parser.add_argument("-a", action="store_true")
+parser.add_argument("-1", dest="one", action="store_true")
+parser.add_argument("paths", nargs="*")
+
+# Parse the user's command-line arguments
+args = parser.parse_args()
 
 flags = []
-paths = []
 
+if args.a:
+    flags.append("-a")
 
-# Separate flags and paths
-for arg in args:
-    if arg.startswith("-"):
-        flags.append(arg)
-    else:
-        paths.append(arg)
+if args.one:
+    flags.append("-1")
+
+paths = args.paths
 
 
 # Use the current directory if no path is provided
@@ -35,10 +39,7 @@ for path in paths:
     elif os.path.isdir(path):
         contents = os.listdir(path)
         if "-a" not in flags:
-            contents=[
-                file for file in contents
-                if not file.startswith(".")     
-            ]
+            contents = [file for file in contents if not file.startswith(".")]
         if "-1" in flags:
             print("\n".join(contents))
         else:
