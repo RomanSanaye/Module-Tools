@@ -74,14 +74,20 @@ except ValueError:
 
 
 # Convert the user's input into an OperatingSystem enum value.
-# If the value isn't one of our enum choices, exit with an error.
-try:
-    preferred_operating_system = OperatingSystem(
-        input("What is your preferred operating system? ")
-    )
-except ValueError:
-    print("Invalid operating system.", file=sys.stderr)
-    sys.exit(1)
+# If the input is invalid, ask the user to try again.
+while True:
+    try:
+        preferred_operating_system = OperatingSystem(
+            input(
+                "What is your preferred operating system "
+                "(macOS, Arch Linux, or Ubuntu)? "
+            )
+        )
+        break
+    except ValueError:
+        print(
+            "Invalid operating system. " "Please choose macOS, Arch Linux, or Ubuntu."
+        )
 
 
 # Create a Person using the validated input.

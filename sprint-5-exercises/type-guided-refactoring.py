@@ -21,14 +21,14 @@ class Laptop:
 def find_possible_laptops(laptops: List[Laptop], person: Person) -> List[Laptop]:
     possible_laptops = []
     for laptop in laptops:
-        if laptop.operating_system == person.preferred_operating_systems:
+        if laptop.operating_system in person.preferred_operating_systems:
             possible_laptops.append(laptop)
     return possible_laptops
 
 
 people = [
-    Person(name="Imran", age=22, preferred_operating_systems="Ubuntu"),
-    Person(name="Eliza", age=34, preferred_operating_systems="Arch Linux"),
+    Person(name="Imran", age=22, preferred_operating_systems=["Ubuntu"]),
+    Person(name="Eliza", age=34, preferred_operating_systems=["Arch Linux"]),
 ]
 
 laptops = [
@@ -65,3 +65,10 @@ laptops = [
 for person in people:
     possible_laptops = find_possible_laptops(laptops, person)
     print(f"Possible laptops for {person.name}: {possible_laptops}")
+
+# After testing with mypy I found 2 errors:
+# sprint-5-exercises/type-guided-refactoring.py:30: error: Argument "preferred_operating_systems" to "Person" has incompatible type "str"; expected "list[str]"  [arg-type].
+# =======> to fix the issue we should have list of string instead of str itself.
+
+# sprint-5-exercises/type-guided-refactoring.py:31: error: Argument "preferred_operating_systems" to "Person" has incompatible type "str"; expected "list[str]"  [arg-type].
+# ========> to fix the issue we should have list of string instead of str itself.
